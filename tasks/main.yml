@@ -1,0 +1,29 @@
+---
+
+- name: users primary group
+  group:
+    name: "{{ item.key }}"
+    gid: "{{ item.value.gid }}"
+    state: present
+  with_dict: "{{ users }}"
+  when: item.value.gid is defined
+
+- name: user accounts
+  user:
+    name: "{{ item.key }}"
+    group: "{{ item.key }}"
+    uid: "{{ item.value.uid }}"
+    password: "{{ item.value.password }}"
+    home: "{{ item.value.home | default('/home/'+item.key) }}"
+    shell: "{{ item.value.shell | default('/bin/bash') }}"
+    state: present
+  with_dict: "{{ users }}"
+
+- name: home directory permissions
+  file:
+    path: "{{ item.value.home | default('/home/'+item.key) }}"
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+    mode: "{{ item.homedir_mode | default(700) }}"
+    state: directory
+  with_dict: "{{ users }}"
