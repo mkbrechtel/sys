@@ -12,14 +12,17 @@
   user:
     name: "{{ item.key }}"
     group: "{{ item.key }}"
+    groups: "{{ item.value.groups | join(',') }}"
     uid: "{{ item.value.uid }}"
     password: "{{ item.value.password }}"
     home: "{{ item.value.home | default('/home/'+item.key) }}"
     shell: "{{ item.value.shell | default('/bin/bash') }}"
+    generate_ssh_key: yes
+    ssh_key_type: ed25519
     state: present
   with_dict: "{{ users }}"
 
-- name: home directory permissions
+- name: home directory
   file:
     path: "{{ item.value.home | default('/home/'+item.key) }}"
     owner: "{{ item.key }}"
@@ -27,3 +30,21 @@
     mode: "{{ item.homedir_mode | default(700) }}"
     state: directory
   with_dict: "{{ users }}"
+
+- name: ssh directory
+  file:
+    path: "{{ item.value.home | default('/home/'+item.key) }}/.ssh"
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+    mode: "700"
+    state: directory
+  with_dict: "{{ users }}"
+
+- name: ssh authorized keys
+  copy:
+    content: "{{ item.authorized_keys }}"
+    dest: "{{ item.value.home | default('/home/'+item.key) }}/.ssh/authorized_keys"
+    owner: "{{ item.key }}"
+    group: "{{ item.key }}"
+  with_dict: "{{ users }}"
+  when: item.authorized_keys is defined
