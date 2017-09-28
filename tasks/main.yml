@@ -1,50 +1,63 @@
 ---
 
+- name: user groups
+  group:
+    name: "{{ item }}"
+    gid: "{{ user_groups[item].gid }}"
+    state: present
+  with_items: "{{ user_groups.keys() }}"
+
 - name: users primary group
   group:
-    name: "{{ item.key }}"
-    gid: "{{ item.value.gid }}"
+    name: "{{ item }}"
+    gid: "{{ users[item].gid }}"
     state: present
-  with_dict: "{{ users }}"
-  when: item.value.gid is defined
+  with_items: "{{ users.keys() }}"
+  when: users[item].gid is defined
 
 - name: user accounts
   user:
-    name: "{{ item.key }}"
-    group: "{{ item.key }}"
-    groups: "{{ item.value.groups | join(',') }}"
-    uid: "{{ item.value.uid }}"
-    password: "{{ item.value.password }}"
-    home: "{{ item.value.home | default('/home/'+item.key) }}"
-    shell: "{{ item.value.shell | default('/bin/bash') }}"
+    name: "{{ item }}"
+    group: "{{ item }}"
+    groups: "{{ users[item].groups | join(',') }}"
+    uid: "{{ users[item].uid }}"
+    home: "{{ users[item].home | default('/home/'+item) }}"
+    shell: "{{ users[item].shell | default('/bin/bash') }}"
     generate_ssh_key: yes
     ssh_key_type: ed25519
     state: present
-  with_dict: "{{ users }}"
+  with_items: "{{ users.keys() }}"
+
+- name: user passwords
+  user:
+    name: "{{ item }}"
+    password: "{{ users[item].password }}"
+  with_items: "{{ users.keys() }}"
+  when: users[item].password is defined
 
 - name: home directory
   file:
-    path: "{{ item.value.home | default('/home/'+item.key) }}"
-    owner: "{{ item.key }}"
-    group: "{{ item.key }}"
-    mode: "{{ item.homedir_mode | default(700) }}"
+    path: "{{ users[item].home | default('/home/'+item) }}"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: "{{ users[item].homedir_mode | default(700) }}"
     state: directory
-  with_dict: "{{ users }}"
+  with_items: "{{ users.keys() }}"
 
 - name: ssh directory
   file:
-    path: "{{ item.value.home | default('/home/'+item.key) }}/.ssh"
-    owner: "{{ item.key }}"
-    group: "{{ item.key }}"
+    path: "{{ users[item].home | default('/home/'+item) }}/.ssh"
+    owner: "{{ item }}"
+    group: "{{ item }}"
     mode: "700"
     state: directory
-  with_dict: "{{ users }}"
+  with_items: "{{ users.keys() }}"
 
 - name: ssh authorized keys
   copy:
-    content: "{{ item.authorized_keys }}"
-    dest: "{{ item.value.home | default('/home/'+item.key) }}/.ssh/authorized_keys"
-    owner: "{{ item.key }}"
-    group: "{{ item.key }}"
-  with_dict: "{{ users }}"
-  when: item.authorized_keys is defined
+    content: "{{ users[item].authorized_keys }}"
+    dest: "{{ users[item].home | default('/home/'+item) }}/.ssh/authorized_keys"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+  with_items: "{{ users.keys() }}"
+  when: users[item].authorized_keys is defined
