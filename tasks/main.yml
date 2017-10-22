@@ -6,6 +6,7 @@
     gid: "{{ user_groups[item].gid }}"
     state: present
   with_items: "{{ user_groups.keys() }}"
+  when: user_groups is defined
 
 - name: users primary group
   group:
