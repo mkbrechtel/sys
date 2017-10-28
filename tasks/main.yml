@@ -61,7 +61,7 @@
     owner: "{{ item }}"
     group: "{{ item }}"
   with_items: "{{ users.keys() }}"
-  when: users[item].authorized_keys is defined
+  when: users[item].ssh_authorized_keys is defined
 
 - name: check if systemd lingering is enabled
   stat:
