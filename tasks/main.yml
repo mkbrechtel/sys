@@ -23,7 +23,7 @@
     groups: "{{ users[item].groups | default([]) | join(',') }}"
     uid: "{{ users[item].uid }}"
     home: "{{ users[item].home | default('/home/'+item) }}"
-    shell: "{{ users[item].shell | default('/bin/bash') }}"
+    shell: "{{ users[item].shell | default('/usr/bin/fish') }}"
     generate_ssh_key: yes
     ssh_key_type: ed25519
     state: present
