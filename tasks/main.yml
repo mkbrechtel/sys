@@ -1,7 +1,16 @@
 ---
 
-- include: groups.yml
-- include: user.yml
+- include: user_groups.yml
+  when: user_groups is defined
+
+- include: users.yml
+  when: users is defined
+
 - include: home.yml
+  when: users is defined
+
 - include: ssh.yml
+  when: users is defined
+
 - include: linger.yml
+  when: users is defined
