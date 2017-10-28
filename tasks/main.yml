@@ -62,3 +62,22 @@
     group: "{{ item }}"
   with_items: "{{ users.keys() }}"
   when: users[item].authorized_keys is defined
+
+- name: check if systemd lingering is enabled
+  stat:
+    path: /var/lib/systemd/linger/{{item}}
+  register: _users_systemd_linger_stat
+  with_items: "{{ users.keys() }}"
+
+- name: set systemd lingering
+  command:
+    loginctl
+    {{ users[item].linger | ternary('enable','disable') }}-linger
+    {{item}}
+  with_items: "{{ users.keys() }}"
+  when:
+    - users[item].linger is defined
+    - (
+        _users_systemd_linger_stat.results
+        | json_query("[?item=='"+item+"'].stat.exists") | first
+      ) != users[item].linger
