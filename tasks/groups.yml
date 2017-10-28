@@ -1,0 +1,8 @@
+---
+
+- name: groups
+  group:
+    name: "{{ item }}"
+    gid: "{{ user_groups[item].gid }}"
+  with_items: "{{ user_groups.keys() }}"
+  when: user_groups is defined
