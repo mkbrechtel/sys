@@ -1,6 +1,6 @@
 ---
 
-- name: ssh_key
+- name: ssh key
   user:
     name: "{{ item }}"
     generate_ssh_key: yes
