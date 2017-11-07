@@ -1,0 +1,7 @@
+---
+
+- name: install debian packages
+  package:
+    name: "{{ item }}"
+  with_items:
+    - dbus

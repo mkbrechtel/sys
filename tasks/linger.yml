@@ -5,6 +5,8 @@
     path: /var/lib/systemd/linger/{{item}}
   register: _users_systemd_linger_stat
   with_items: "{{ users.keys() }}"
+  when:
+    - users[item].linger is defined
 
 - name: set systemd lingering
   command:

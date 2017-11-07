@@ -1,5 +1,7 @@
 ---
 
+- include: setup_{{ansible_os_family}}.yml
+
 - include: user_groups.yml
   when: user_groups is defined
 
