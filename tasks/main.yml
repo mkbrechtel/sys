@@ -1,20 +1,20 @@
 ---
 
-- include: setup_{{ansible_os_family}}.yml
+- include_task: setup_{{ansible_os_family}}.yml
 
-- include: user_groups.yml
+- include_task: user_groups.yml
   when: user_groups is defined
 
-- include: users.yml
+- include_task: users.yml
   when: users is defined
 
-- include: home.yml
+- include_task: home.yml
   when: users is defined
 
-- include: ssh.yml
+- include_task: ssh.yml
   when: users is defined
 
-- include: linger.yml
+- include_task: linger.yml
   when: users is defined
 
 - name: flush handlers
