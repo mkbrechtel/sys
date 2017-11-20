@@ -5,3 +5,4 @@
     name: "{{ item }}"
   with_items:
     - dbus
+    - libpam-systemd

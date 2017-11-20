@@ -16,6 +16,7 @@
     home: "{{ users[item].home | default('/home/'+item) }}"
     shell: "{{ users[item].shell | default('/usr/bin/fish') }}"
   with_items: "{{ users.keys() }}"
+  notify: restart systemd-logind.service
 
 - name: password
   user:
