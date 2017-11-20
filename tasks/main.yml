@@ -16,3 +16,6 @@
 
 - include: linger.yml
   when: users is defined
+
+- name: flush handlers
+  meta: flush_handlers
