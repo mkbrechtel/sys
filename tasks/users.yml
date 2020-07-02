@@ -4,7 +4,7 @@
   group:
     name: "{{ item }}"
     gid: "{{ users[item].gid }}"
-  with_items: "{{ users.keys() }}"
+  loop: "{{ users.keys() | list }}"
   when: users[item].gid is defined
 
 - name: account
@@ -15,12 +15,12 @@
     uid: "{{ users[item].uid }}"
     home: "{{ users[item].home | default('/home/'+item) }}"
     shell: "{{ users[item].shell | default('/usr/bin/fish') }}"
-  with_items: "{{ users.keys() }}"
+  loop: "{{ users.keys() | list }}"
   notify: restart systemd-logind.service
 
 - name: password
   user:
     name: "{{ item }}"
     password: "{{ users[item].password }}"
-  with_items: "{{ users.keys() }}"
+  loop: "{{ users.keys() | list }}"
   when: users[item].password is defined

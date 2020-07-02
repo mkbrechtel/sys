@@ -4,7 +4,7 @@
   stat:
     path: /var/lib/systemd/linger/{{item}}
   register: _users_systemd_linger_stat
-  with_items: "{{ users.keys() }}"
+  loop: "{{ users.keys() | list }}"
   when:
     - users[item].linger is defined
 
@@ -13,7 +13,7 @@
     loginctl
     {{ users[item].linger | ternary('enable','disable') }}-linger
     {{item}}
-  with_items: "{{ users.keys() }}"
+  loop: "{{ users.keys() | list }}"
   when:
     - users[item].linger is defined
     - (

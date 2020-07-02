@@ -5,7 +5,7 @@
     name: "{{ item }}"
     generate_ssh_key: yes
     ssh_key_type: ed25519
-  with_items: "{{ users.keys() }}"
+  loop: "{{ users.keys() | list }}"
 
 - name: ssh directory
   file:
@@ -14,7 +14,7 @@
     group: "{{ item }}"
     mode: "700"
     state: directory
-  with_items: "{{ users.keys() }}"
+  loop: "{{ users.keys() | list }}"
 
 - name: ssh authorized keys
   template:
@@ -22,5 +22,5 @@
     dest: "{{ users[item].home | default('/home/'+item) }}/.ssh/authorized_keys"
     owner: "{{ item }}"
     group: "{{ item }}"
-  with_items: "{{ users.keys() }}"
+  loop: "{{ users.keys() | list }}"
   when: users[item].ssh_authorized_keys is defined
