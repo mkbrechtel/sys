@@ -5,7 +5,7 @@
 - import_tasks: user_groups.yml
   when: user_groups is defined
 
-- import_tasks: move.yml
+- import_tasks: move.yaml
   when: users is defined
 
 - import_tasks: users.yml
