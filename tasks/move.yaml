@@ -1,0 +1,13 @@
+---
+
+- name: move group
+  command: "groupmod --login {{ item }} {{ users[item].old_name }}"
+  loop: "{{ users.keys() | list }}"
+  when: users[item].old_name is defined
+  failed_when: false
+
+- name: move account
+  command: "usermod --login {{ item }} {{ users[item].old_name }}"
+  loop: "{{ users.keys() | list }}"
+  when: users[item].old_name is defined
+  failed_when: false
