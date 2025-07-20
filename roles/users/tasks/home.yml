@@ -1,0 +1,10 @@
+---
+
+- name: home directory
+  file:
+    path: "{{ users[item].home | default('/home/'+item) }}"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: "{{ users[item].homedir_mode | default(700) }}"
+    state: directory
+  loop: "{{ users.keys() | list }}"

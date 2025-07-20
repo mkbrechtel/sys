@@ -1,0 +1,7 @@
+---
+
+- name: groups
+  group:
+    name: "{{ item }}"
+    gid: "{{ user_groups[item].gid }}"
+  loop: "{{ user_groups.keys() | list }}"

@@ -1,0 +1,24 @@
+---
+
+- include_tasks: setup_{{ansible_os_family}}.yml
+
+- import_tasks: user_groups.yml
+  when: user_groups is defined
+
+- import_tasks: move.yaml
+  when: users is defined
+
+- import_tasks: users.yml
+  when: users is defined
+
+- import_tasks: home.yml
+  when: users is defined
+
+- import_tasks: ssh.yml
+  when: users is defined
+
+- import_tasks: linger.yml
+  when: users is defined
+
+- name: flush handlers
+  meta: flush_handlers
