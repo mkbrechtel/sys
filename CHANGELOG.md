@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.1] - 2025-07-26
+
 ### Added
 - Podman role for installing container runtime with DNS support
   - Installs podman, dnsmasq, containernetworking-plugins, and podman-compose
@@ -21,3 +23,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - GitHub Actions release workflow
   - Automatic collection build on version tags
   - Ansible Galaxy publishing support
+- Existing roles from initial collection structure:
+  - **ansible** role for Ansible configuration and tools setup
+  - **common** role for base system configuration (packages, repos, locales, timezone, etc.)
+  - **updates** role for system update management
+  - **users** role for user account management with home directory configuration
+
+[0.0.1]: https://github.com/mkbrechtel/sys/releases/tag/v0.0.1
