@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.3] - 2025-07-26
+
+### Fixed
+- Updated meta/runtime.yml with mandatory requires_ansible field set to '>=2.14.3'
+- Fixed Galaxy import error about missing requires_ansible in meta/runtime.yml
+
 ## [0.0.2] - 2025-07-26
 
 ### Fixed
@@ -36,5 +42,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **updates** role for system update management
   - **users** role for user account management with home directory configuration
 
+[0.0.3]: https://github.com/mkbrechtel/sys/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/mkbrechtel/sys/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/mkbrechtel/sys/releases/tag/v0.0.1
