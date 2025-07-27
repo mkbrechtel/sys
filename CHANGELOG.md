@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.2] - 2025-07-26
+
+### Fixed
+- Added missing README.md files for all roles (ansible, common, users)
+- Added missing meta/main.yml files for all roles with proper galaxy_info
+- Fixed Galaxy import errors by ensuring all roles have required documentation
+
 ## [0.0.1] - 2025-07-26
 
 ### Added
@@ -29,4 +36,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - **updates** role for system update management
   - **users** role for user account management with home directory configuration
 
+[0.0.2]: https://github.com/mkbrechtel/sys/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/mkbrechtel/sys/releases/tag/v0.0.1
